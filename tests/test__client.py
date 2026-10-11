@@ -19,7 +19,6 @@ def test__client__can_be_instantiated(jira_client: client.JiraClient):
     assert jira_client.request_headers == {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "Authorization": "Basic Zm9vOkI0ciE=",
     }
 
 
