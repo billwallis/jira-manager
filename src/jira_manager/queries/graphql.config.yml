@@ -1,0 +1,5 @@
+schema:
+  - https://${JIRA_DOMAIN}.atlassian.net/gateway/api/graphql:
+      headers:
+        Authorization: ${JIRA_AUTH}
+        X-ExperimentalApi : JiraProject
