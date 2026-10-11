@@ -9,20 +9,23 @@ DEFAULT_PAGE_SIZE = 20
 MAX_RETRIES = 5
 
 
+def basic_auth(key: str, secret: str) -> str:
+    # https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/#supply-basic-auth-headers
+    return "Basic " + base64.b64encode(f"{key}:{secret}".encode()).decode()
+
+
 class JiraClient:
     """
     Bridge class for the Jira API.
     """
 
+    domain: str
     base_url: str
 
     def __init__(self, domain: str, key: str, secret: str) -> None:
+        self.domain = domain
         self.base_url = BASE_URL.format(domain=domain)
-
-        # https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/#supply-basic-auth-headers
-        self._auth = (
-            "Basic " + base64.b64encode(f"{key}:{secret}".encode()).decode()
-        )
+        self._auth = basic_auth(key=key, secret=secret)
 
     @property
     def request_headers(self) -> dict:
