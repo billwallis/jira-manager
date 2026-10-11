@@ -12,6 +12,8 @@ readme = "README.md"
 license-files = ["LICENSE"]
 requires-python = ">=3.13"
 dependencies = []
+scripts.jira-manager = "jira_manager.cli:main"
+scripts.jm = "jira_manager.cli:main"
 
 [dependency-groups]
 dev = [
@@ -35,6 +37,7 @@ install.shell = """
     pre-commit install --install-hooks
 """
 test.shell = """
+    coverage erase
     coverage run -m pytest -vvv
     coverage xml --quiet
     coverage report --no-skip-covered --include 'tests/*'
@@ -66,6 +69,8 @@ shell = """
 testpaths = ["tests"]
 
 [tool.coverage]
+run.patch = ["subprocess"]
+run.parallel = true
 run.source = ["src", "tests"]
 run.plugins = ["covdefaults"]  # https://youtu.be/70T6OxKwxm0
 report.fail_under = 80
