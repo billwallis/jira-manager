@@ -4,9 +4,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "python-template"
+name = "jira-manager"
 version = "0.0.0"
-description = ""
+description = "CLI for managing Jira projects"
 authors = [{name = "billwallis"}]
 readme = "README.md"
 license-files = ["LICENSE"]

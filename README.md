@@ -1,24 +1,19 @@
 <span align="center">
 
 [![Python](https://img.shields.io/badge/Python-3.13+-blue.svg)](https://www.python.org/downloads/)
-[![tests](https://github.com/billwallis/python-template/actions/workflows/tests.yaml/badge.svg)](https://github.com/billwallis/python-template/actions/workflows/tests.yaml)
-[![coverage](https://raw.githubusercontent.com/billwallis/python-template/refs/heads/main/coverage.svg)](https://smarie.github.io/python-genbadge/)
+[![tests](https://github.com/billwallis/jira-manager/actions/workflows/tests.yaml/badge.svg)](https://github.com/billwallis/jira-manager/actions/workflows/tests.yaml)
+[![coverage](https://raw.githubusercontent.com/billwallis/jira-manager/refs/heads/main/coverage.svg)](https://smarie.github.io/python-genbadge/)
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/billwallis/python-template/main.svg)](https://results.pre-commit.ci/latest/github/billwallis/python-template/main)
-[![GitHub last commit](https://img.shields.io/github/last-commit/billwallis/python-template)](https://shields.io/badges/git-hub-last-commit)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/billwallis/jira-manager/main.svg)](https://results.pre-commit.ci/latest/github/billwallis/jira-manager/main)
+[![GitHub last commit](https://img.shields.io/github/last-commit/billwallis/jira-manager)](https://shields.io/badges/git-hub-last-commit)
 
 </span>
 
 ---
 
-# Python Template Repo
+# Jira Manager
 
-Not for public consumption; this is just for me (@billwallis).
-
-After copying, find and replace on:
-
-- `python-template` -> new repo name
-- `python_template` -> new package name
+CLI for managing Jira projects.
 
 ## Contributing
 
@@ -27,4 +22,10 @@ Install the dependencies:
 ```shell
 pip install --editable . --group dev --group test
 pre-commit install --install-hooks
+```
+
+## Usage
+
+```shell
+jm project <project-key>
 ```
