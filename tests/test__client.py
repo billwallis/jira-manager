@@ -14,6 +14,7 @@ def jira_client() -> client.JiraClient:
 
 
 def test__client__can_be_instantiated(jira_client: client.JiraClient):
+    assert jira_client.domain == "foo-bar"
     assert jira_client.base_url == "https://foo-bar.atlassian.net/"
     assert jira_client.request_headers == {
         "Content-Type": "application/json",

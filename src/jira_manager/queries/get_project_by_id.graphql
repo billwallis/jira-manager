@@ -1,0 +1,23 @@
+query getProjectByKey($cloudId: ID!, $projectKey: String!) {
+  jira {
+    jiraProjectByKey(cloudId: $cloudId, key: $projectKey) {
+      projectId
+      projectUrl
+      projectType
+      id
+      name
+      boards(first: 10) {
+        totalCount
+        edges {
+          node {
+            id
+            boardId
+            boardUrl
+            boardType
+            name
+          }
+        }
+      }
+    }
+  }
+}
