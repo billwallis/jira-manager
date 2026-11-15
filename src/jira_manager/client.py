@@ -61,6 +61,7 @@ class JiraClient:
         """
         https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get
         """
+
         endpoint = "rest/api/3/search/jql"
         query = {
             "jql": jql,
@@ -97,3 +98,37 @@ class JiraClient:
             query["nextPageToken"] = response_json.get("nextPageToken")
 
         return search_results
+
+    def get_issue(self, issue_id_or_key: str) -> dict:
+        """
+        https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get
+        """
+
+        endpoint = f"/rest/api/3/issue/{issue_id_or_key}"
+        response = requests.get(
+            url=self.base_url + endpoint,
+            headers=self.request_headers,
+            auth=self.auth,
+            timeout=DEFAULT_TIMEOUT_SECONDS,
+        )
+        if response.status_code != http.HTTPStatus.OK:
+            raise RuntimeError(response.text)
+        else:
+            return response.json()
+
+    def get_fields(self) -> dict:
+        """
+        https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-fields/#api-rest-api-3-field-get
+        """
+
+        endpoint = f"/rest/api/3/field"
+        response = requests.get(
+            url=self.base_url + endpoint,
+            headers=self.request_headers,
+            auth=self.auth,
+            timeout=DEFAULT_TIMEOUT_SECONDS,
+        )
+        if response.status_code != http.HTTPStatus.OK:
+            raise RuntimeError(response.text)
+        else:
+            return response.json()
