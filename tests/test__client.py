@@ -150,3 +150,72 @@ def test__client__search_jql_missing_keys_raises_value_error(
     monkeypatch.setattr(requests, "get", mock_get)  # type: ignore
     with pytest.raises(ValueError):
         jira_client.search_jql(jql="project = X", fields=[])
+
+
+def test__client__can_get_issue_by_key(
+    jira_client: client.JiraClient,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    issue = {
+        "id": "12345",
+        "self": "https://domain.atlassian.net/rest/api/3/issue/12345",
+        "key": "ABC-123",
+        "fields": {},
+    }
+    def mock_get(**kwargs):
+        return types.SimpleNamespace(
+            status_code=http.HTTPStatus.OK,
+            json=lambda: issue,
+        )
+
+    monkeypatch.setattr(requests, "get", mock_get)  # type: ignore
+    assert jira_client.get_issue(issue_id_or_key="ABC-123") == issue
+
+
+def test__client__get_issue_raises_error(
+    jira_client: client.JiraClient,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    def mock_get(**kwargs):
+        return types.SimpleNamespace(
+            status_code=http.HTTPStatus.NOT_FOUND,
+            text="Issue not found",
+        )
+
+    monkeypatch.setattr(requests, "get", mock_get)  # type: ignore
+    with pytest.raises(RuntimeError):
+        jira_client.get_issue(issue_id_or_key="ABC-123")
+
+
+def test__client__can_get_fields(
+    jira_client: client.JiraClient,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    fields = [
+        {"id": "issuekey", "key": "issuekey", "name": "Key"},
+        {"id": "summary", "key": "summary", "name": "Summary"},
+        {"id": "customfield_10001", "key": "customfield_10001", "name": "Team"},
+    ]
+    def mock_get(**kwargs):
+        return types.SimpleNamespace(
+            status_code=http.HTTPStatus.OK,
+            json=lambda: fields,
+        )
+
+    monkeypatch.setattr(requests, "get", mock_get)  # type: ignore
+    assert jira_client.get_fields() == fields
+
+
+def test__client__get_fields_raises_error(
+    jira_client: client.JiraClient,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    def mock_get(**kwargs):
+        return types.SimpleNamespace(
+            status_code=http.HTTPStatus.BAD_GATEWAY,
+            text="You shall not pass!",
+        )
+
+    monkeypatch.setattr(requests, "get", mock_get)  # type: ignore
+    with pytest.raises(RuntimeError):
+        jira_client.get_fields()
