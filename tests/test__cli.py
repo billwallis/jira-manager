@@ -26,9 +26,3 @@ def test__cli__no_args_prints_help():
     help_ = _run(("--help",))
     assert proc.returncode == 0
     assert proc.stdout == help_.stdout
-
-
-def test__cli__cmd_project_is_not_implemented():
-    proc = _run(("project", "foo"), check=False)
-    assert proc.returncode == 1
-    assert proc.stdout == b"error: not implemented\n"

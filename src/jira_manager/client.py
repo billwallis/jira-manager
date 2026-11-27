@@ -99,6 +99,24 @@ class JiraClient:
 
         return search_results
 
+    def create_issue(self, payload: dict) -> dict:
+        """
+        https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post
+        """
+
+        endpoint = f"/rest/api/3/issue"
+        response = requests.post(
+            url=self.base_url + endpoint,
+            data=json.dumps(payload),
+            headers=self.request_headers,
+            auth=self.auth,
+            timeout=DEFAULT_TIMEOUT_SECONDS,
+        )
+        if response.status_code != http.HTTPStatus.CREATED:
+            raise RuntimeError(response.text)
+        else:
+            return response.json()
+
     def get_issue(self, issue_id_or_key: str) -> dict:
         """
         https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-get
